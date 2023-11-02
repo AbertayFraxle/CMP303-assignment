@@ -22,8 +22,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{934b39a7-e172-411d-8aa1-06c448fc09a7}</ProjectGuid>
-    <RootNamespace>CMP303project</RootNamespace>
+    <ProjectGuid>{74216c5d-350f-40e8-9912-da52da4cd171}</ProjectGuid>
+    <RootNamespace>CMP303assignment</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
