@@ -135,7 +135,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source.cpp" />
+    <ClCompile Include="Arena.cpp" />
+    <ClCompile Include="BaseLevel.cpp" />
+    <ClCompile Include="ClientInterface.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ServerInterface.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Arena.h" />
+    <ClInclude Include="BaseLevel.h" />
+    <ClInclude Include="ClientInterface.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="ServerInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
