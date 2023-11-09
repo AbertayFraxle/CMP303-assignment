@@ -2,9 +2,68 @@
 #include "SFML/Graphics.hpp"
 #include "ClientInterface.h"
 #include "ServerInterface.h"
+#include "Input.h"
 #include <iostream>
+#include "Arena.h"
+
+
+
+void windowProcess(sf::RenderWindow* window, Input* in)
+{
+	sf::Event event;
+	while (window->pollEvent(event)) {
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			window->close();
+			break;
+		case sf::Event::Resized:
+			window->setView(sf::View(sf::FloatRect(0.f, 0.f, (float)event.size.width, (float)event.size.height)));
+			break;
+		case sf::Event::KeyPressed:
+			in->setKeyDown(event.key.code);
+			break;
+		case sf::Event::KeyReleased:
+			in->setKeyUp(event.key.code);
+			break;
+		case sf::Event::MouseMoved:
+			in->setMousePosition(event.mouseMove.x, event.mouseMove.y);
+			break;
+		case sf::Event::MouseButtonPressed:
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				//update input class
+				in->setLeftMouse(Input::MouseState::DOWN);
+			}
+			else if (event.mouseButton.button == sf::Mouse::Right)
+			{
+				in->setRightMouse(Input::MouseState::DOWN);
+			}
+			break;
+		case sf::Event::MouseButtonReleased:
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				//update input class
+				in->setLeftMouse(Input::MouseState::UP);
+			}
+			else if (event.mouseButton.button == sf::Mouse::Right)
+			{
+				in->setRightMouse(Input::MouseState::UP);
+			}
+			break;
+		default:
+			// don't handle other events
+			break;
+
+
+		}
+	}
+}
+
 
 int main() {
+
+	
 
 	int selection;
 	bool valid = false;
@@ -37,21 +96,24 @@ int main() {
 			}
 
 			sf::RenderWindow window(sf::VideoMode(1920, 1080), "CMP303_Coursework");
+			Input input;
+			Arena arena(&window, &input,&client);
+			
 
 			sf::Clock clock;
 			float deltaTime;
 			window.setKeyRepeatEnabled(false);
 
 			while (window.isOpen()) {
+				windowProcess(&window, &input);
+
 				deltaTime = clock.restart().asSeconds();
 
+				arena.handleInput(deltaTime);
+				arena.update(deltaTime);
+				arena.render();
+
 			}
-
-
-
-			
-			
-			
 		}
 		else if (selection == 2)
 		{

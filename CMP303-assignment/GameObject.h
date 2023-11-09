@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML\graphics.hpp"
+#include "VectorHelper.h"
 class GameObject : public sf::RectangleShape
 {
 public:

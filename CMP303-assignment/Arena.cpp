@@ -1,8 +1,11 @@
 #include "Arena.h"
 
-Arena::Arena(sf::RenderWindow * hwnd) {
+Arena::Arena(sf::RenderWindow * hwnd, Input * in, ClientInterface* cli) {
 	window = hwnd;
+	input = in;
+	client = cli;
 
+	localPlayer.setInput(input);
 }
 
 Arena::~Arena() {
@@ -10,16 +13,16 @@ Arena::~Arena() {
 }
 
 void Arena::handleInput(float dt) {
-	if (localPlayer.isAlive()) {
-		localPlayer.handleInput(dt);
-	}
 
+	localPlayer.handleInput(dt);
+	
 
 }
 
 void Arena::update(float dt)
 {
 	localPlayer.update(dt);
+	client->sendData(&localPlayer);
 
 }
 

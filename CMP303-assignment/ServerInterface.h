@@ -1,7 +1,7 @@
 #pragma once
 #include "SFML/Network.hpp"
 #include <iostream>
-#include <vector>
+#include <list>
 class ServerInterface
 {
 public:
@@ -11,7 +11,8 @@ public:
 
 private:
 	sf::TcpListener listener;
+	sf::SocketSelector selector;
 	int port;
-	std::vector<sf::TcpSocket*> clients;
+	std::list<sf::TcpSocket*> clients;
 };
 

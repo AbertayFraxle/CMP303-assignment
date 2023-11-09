@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "Input.h"
 class BaseLevel
 {
 public:
@@ -7,7 +8,7 @@ public:
 	~BaseLevel();
 
 	virtual void handleInput(float dt)=0;
-	virtual void update()=0;
+	virtual void update(float dt)=0;
 	virtual void render() = 0;
 
 protected:
@@ -15,6 +16,6 @@ protected:
 	void endDraw();
 
 	sf::RenderWindow* window;
-
+	Input* input;
 };
 

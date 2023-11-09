@@ -36,6 +36,15 @@
     <ClCompile Include="ServerInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -54,6 +63,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ServerInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

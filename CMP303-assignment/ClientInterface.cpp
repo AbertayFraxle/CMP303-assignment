@@ -1,5 +1,6 @@
 #include "ClientInterface.h"
 
+
 void ClientInterface::setAddress(sf::IpAddress adr)
 {
 	address = adr;
@@ -8,6 +9,22 @@ void ClientInterface::setAddress(sf::IpAddress adr)
 void ClientInterface::setPort(int prt)
 {
 	port = prt;
+}
+
+void ClientInterface::sendData(Player* player)
+{
+	sf::Vector2f playerPos = player->getPosition();
+
+	sf::Packet packet;
+	packet <<player->getID() << playerPos.x << playerPos.y;
+
+	socket.send(packet);
+
+}
+
+void ClientInterface::recieveData() {
+
+
 }
 
 bool ClientInterface::connectSocket()
@@ -23,3 +40,4 @@ bool ClientInterface::connectSocket()
 		return true;
 	}
 }
+
