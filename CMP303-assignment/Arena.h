@@ -18,6 +18,7 @@ private:
 	ClientInterface* client;
 
 	Player localPlayer;
-	
+	NetworkPlayer networkPlayers[5];
+
 };
 

@@ -44,6 +44,10 @@ void ServerInterface::update()
 						sf::Int32 ID;
 
 						if (packet >> ID >>playerPos.x >> playerPos.y) {
+							int index = std::distance(it,clients.begin());
+							
+							playerPositions[index].x = playerPos.x;
+							playerPositions[index].y = playerPos.y;
 							std::cout << std::endl << "Player " << ID << " position - x:" << playerPos.x<< " y:" << playerPos.y;
 						}
 					}
@@ -53,6 +57,24 @@ void ServerInterface::update()
 		
 		
 
+	}
+
+}
+
+void ServerInterface::sendData()
+{
+
+	sf::Packet packet;
+	
+	packet << playerPositions[0].x << playerPositions[0].y << playerPositions[1].x << playerPositions[1].y << playerPositions[2].x << playerPositions[2].y << playerPositions[3].x << playerPositions[3].y << playerPositions[4].x << playerPositions[4].y << playerPositions[5].x << playerPositions[5].y;
+
+
+	for (std::list<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		
+		sf::TcpSocket& client = **it;
+		
+		client.send(packet);
+		
 	}
 
 }

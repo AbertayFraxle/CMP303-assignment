@@ -128,6 +128,7 @@ int main() {
 
 			while (true) {
 				server.update();
+				server.sendData();
 			}
 		}
 		else {

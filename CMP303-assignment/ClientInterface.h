@@ -14,11 +14,14 @@ public:
 
 	bool connectSocket();
 
+	sf::Vector2f getPosition(int index);
 
 private:
 	sf::TcpSocket socket;
 	
 	sf::IpAddress address;
+
+	sf::Vector2f playerPositions[6];
 
 	int port;
 
