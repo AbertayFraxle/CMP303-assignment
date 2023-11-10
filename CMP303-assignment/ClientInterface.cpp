@@ -16,7 +16,7 @@ void ClientInterface::sendData(Player* player)
 	sf::Vector2f playerPos = player->getPosition();
 
 	sf::Packet packet;
-	packet <<player->getID() << playerPos.x << playerPos.y;
+	packet <<clientID << playerPos.x << playerPos.y;
 
 	socket.send(packet);
 
@@ -36,7 +36,7 @@ void ClientInterface::recieveData() {
 bool ClientInterface::connectSocket()
 {
 	sf::Socket::Status status = socket.connect(address, port);
-	socket.setBlocking(false);
+	
 
 	if (status != sf::Socket::Done) {
 		std::cout << "failed to connect to server\n";
@@ -44,7 +44,16 @@ bool ClientInterface::connectSocket()
 	}
 	else {
 		std::cout << "connected to server with address " << address << " and port " << port << "\n";
-		return true;
+
+		sf::Packet IDpacket;
+		socket.receive(IDpacket);
+
+		if (IDpacket >> clientID) {
+			socket.setBlocking(false);
+			return true;
+		}
+		return false;
+		
 	}
 }
 

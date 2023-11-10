@@ -4,6 +4,7 @@
 #include "ServerInterface.h"
 #include "Input.h"
 #include <iostream>
+#include <windows.h> 
 #include "Arena.h"
 
 
@@ -96,6 +97,10 @@ int main() {
 			}
 
 			sf::RenderWindow window(sf::VideoMode(1920, 1080), "CMP303_Coursework");
+
+			HWND hWnd = GetConsoleWindow();
+			ShowWindow(hWnd, SW_HIDE);
+
 			Input input;
 			Arena arena(&window, &input,&client);
 			
@@ -103,6 +108,8 @@ int main() {
 			sf::Clock clock;
 			float deltaTime;
 			window.setKeyRepeatEnabled(false);
+
+			
 
 			while (window.isOpen()) {
 				windowProcess(&window, &input);
@@ -125,10 +132,21 @@ int main() {
 
 			server.setPort(prt);
 			server.bindListener();
+			//sf::Clock clock;
+			//float timeStep = 1.f/64.f;
+			//float elapsed = 0.f;
+
 
 			while (true) {
-				server.update();
-				server.sendData();
+				
+				//elapsed += clock.getElapsedTime().asSeconds();
+				//clock.restart();
+
+				//if (elapsed >= timeStep) {
+					server.update();
+					server.sendData();
+					//elapsed = 0.f;
+				//}
 			}
 		}
 		else {

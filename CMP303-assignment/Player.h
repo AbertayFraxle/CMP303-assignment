@@ -14,11 +14,17 @@ public:
 	void setInput(Input* in);
 
 	sf::Int32 getID() { return ID; };
+	bool getUpdated() { return updated; };
+	void setFPos(sf::Vector2f);
 private:
 
 	sf::Texture playerTex;
 	sf::Vector2f inputVec;
 	sf::Int32 ID;
+
+	sf::Vector2i fPos;
+
+	bool updated;
 
 	Input* input;
 };

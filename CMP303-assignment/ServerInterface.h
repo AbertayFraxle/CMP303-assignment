@@ -15,7 +15,7 @@ private:
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
 	int port;
-	std::list<sf::TcpSocket*> clients;
+	std::vector<sf::TcpSocket*> clients;
 	sf::Vector2f playerPositions[6];
 };
 

@@ -18,7 +18,9 @@ private:
 	ClientInterface* client;
 
 	Player localPlayer;
-	NetworkPlayer networkPlayers[5];
+	NetworkPlayer networkPlayers[6];
+
+	float elapsed;
 
 };
 

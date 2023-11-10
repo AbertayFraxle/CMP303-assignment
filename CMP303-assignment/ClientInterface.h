@@ -16,6 +16,8 @@ public:
 
 	sf::Vector2f getPosition(int index);
 
+	int getClientID() { return clientID; };
+
 private:
 	sf::TcpSocket socket;
 	
@@ -24,6 +26,7 @@ private:
 	sf::Vector2f playerPositions[6];
 
 	int port;
+	sf::Int32 clientID;
 
 };
 

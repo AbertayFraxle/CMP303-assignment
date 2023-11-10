@@ -27,14 +27,21 @@ void ServerInterface::update()
 					std::cout << "a client has successfully connected to the server";
 					clients.push_back(client);
 					selector.add(*client);
+					sf::Packet idPacket;
+
+					sf::Int32 newID = clients.size() - 1;
+
+					idPacket << newID;
+					client->send(idPacket);
+
 				}
 			}
 
 		}
 		else {
-			for (std::list<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end();++it) {
+			for (int i = 0; i < clients.size();i++) {
 
-				sf::TcpSocket& client = **it;
+				sf::TcpSocket& client = *clients[i];
 
 				if (selector.isReady(client)) {
 					sf::Packet packet;
@@ -44,10 +51,10 @@ void ServerInterface::update()
 						sf::Int32 ID;
 
 						if (packet >> ID >>playerPos.x >> playerPos.y) {
-							int index = std::distance(it,clients.begin());
 							
-							playerPositions[index].x = playerPos.x;
-							playerPositions[index].y = playerPos.y;
+							
+							playerPositions[i].x = playerPos.x;
+							playerPositions[i].y = playerPos.y;
 							std::cout << std::endl << "Player " << ID << " position - x:" << playerPos.x<< " y:" << playerPos.y;
 						}
 					}
@@ -69,7 +76,7 @@ void ServerInterface::sendData()
 	packet << playerPositions[0].x << playerPositions[0].y << playerPositions[1].x << playerPositions[1].y << playerPositions[2].x << playerPositions[2].y << playerPositions[3].x << playerPositions[3].y << playerPositions[4].x << playerPositions[4].y << playerPositions[5].x << playerPositions[5].y;
 
 
-	for (std::list<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+	for (std::vector<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it) {
 		
 		sf::TcpSocket& client = **it;
 		
