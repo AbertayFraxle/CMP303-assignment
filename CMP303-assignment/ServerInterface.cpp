@@ -49,12 +49,14 @@ void ServerInterface::update()
 					if (client.receive(packet) == sf::Socket::Done) {
 						sf::Vector2f playerPos;
 						sf::Int32 ID;
+						float playerAngle;
 
-						if (packet >> ID >>playerPos.x >> playerPos.y) {
+						if (packet >> ID >>playerPos.x >> playerPos.y >> playerAngle) {
 							
 							
 							playerPositions[i].x = playerPos.x;
 							playerPositions[i].y = playerPos.y;
+							playerAngles[i] = playerAngle;
 							std::cout << std::endl << "Player " << ID << " position - x:" << playerPos.x<< " y:" << playerPos.y;
 						}
 					}
@@ -73,7 +75,7 @@ void ServerInterface::sendData()
 
 	sf::Packet packet;
 	
-	packet << playerPositions[0].x << playerPositions[0].y << playerPositions[1].x << playerPositions[1].y << playerPositions[2].x << playerPositions[2].y << playerPositions[3].x << playerPositions[3].y << playerPositions[4].x << playerPositions[4].y << playerPositions[5].x << playerPositions[5].y;
+	packet << playerPositions[0].x << playerPositions[0].y << playerPositions[1].x << playerPositions[1].y << playerPositions[2].x << playerPositions[2].y << playerPositions[3].x << playerPositions[3].y << playerPositions[4].x << playerPositions[4].y << playerPositions[5].x << playerPositions[5].y << playerAngles[0] << playerAngles[1] << playerAngles[2] << playerAngles[3] << playerAngles[4] << playerAngles[5];
 
 
 	for (std::vector<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it) {

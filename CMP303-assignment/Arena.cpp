@@ -7,6 +7,13 @@ Arena::Arena(sf::RenderWindow * hwnd, Input * in, ClientInterface* cli) {
 
 	localPlayer.setInput(input);
 
+
+	for (int i = 0; i < 6; i++) {
+		if (i != client->getClientID()) {
+			networkPlayers[i].setTeam(Team::blue);
+		}
+	}
+
 }
 
 Arena::~Arena() {
@@ -33,6 +40,8 @@ void Arena::update(float dt)
 		if (localPlayer.getUpdated()) {
 			client->sendData(&localPlayer);
 			localPlayer.setFPos(localPlayer.getPosition());
+			localPlayer.setFAngle(localPlayer.getRotation());
+
 		}
 		elapsed = 0.f;
 	}
@@ -40,6 +49,7 @@ void Arena::update(float dt)
 	for (int i = 0; i < 6; i++) {
 		if (i != client->getClientID()) {
 			networkPlayers[i].setPosition(client->getPosition(i));
+			networkPlayers[i].setRotation(client->getRotation(i));
 		}
 	}
 

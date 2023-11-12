@@ -17,5 +17,6 @@ private:
 	int port;
 	std::vector<sf::TcpSocket*> clients;
 	sf::Vector2f playerPositions[6];
+	float playerAngles[6];
 };
 

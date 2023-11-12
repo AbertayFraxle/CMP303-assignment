@@ -15,6 +15,7 @@ public:
 	bool connectSocket();
 
 	sf::Vector2f getPosition(int index);
+	float getRotation(int index);
 
 	int getClientID() { return clientID; };
 
@@ -24,6 +25,7 @@ private:
 	sf::IpAddress address;
 
 	sf::Vector2f playerPositions[6];
+	float playerAngles[6];
 
 	int port;
 	sf::Int32 clientID;

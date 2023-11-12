@@ -14,9 +14,10 @@ void ClientInterface::setPort(int prt)
 void ClientInterface::sendData(Player* player)
 {
 	sf::Vector2f playerPos = player->getPosition();
+	float angle = player->getRotation();
 
 	sf::Packet packet;
-	packet <<clientID << playerPos.x << playerPos.y;
+	packet <<clientID << playerPos.x << playerPos.y << angle;
 
 	socket.send(packet);
 
@@ -28,7 +29,7 @@ void ClientInterface::recieveData() {
 
 	socket.receive(packet);
 
-	if (packet >> playerPositions[0].x >> playerPositions[0].y >> playerPositions[1].x >> playerPositions[1].y >> playerPositions[2].x >> playerPositions[2].y >> playerPositions[3].x >> playerPositions[3].y >> playerPositions[4].x >> playerPositions[4].y >> playerPositions[5].x >> playerPositions[5].y) {
+	if (packet >> playerPositions[0].x >> playerPositions[0].y >> playerPositions[1].x >> playerPositions[1].y >> playerPositions[2].x >> playerPositions[2].y >> playerPositions[3].x >> playerPositions[3].y >> playerPositions[4].x >> playerPositions[4].y >> playerPositions[5].x >> playerPositions[5].y >> playerAngles[0] >> playerAngles[1] >> playerAngles[2] >> playerAngles[3] >> playerAngles[4] >> playerAngles[5]) {
 
 	}
 }
@@ -62,5 +63,10 @@ sf::Vector2f ClientInterface::getPosition(int index)
 	
 
 	return playerPositions[index];
+}
+
+float ClientInterface::getRotation(int index)
+{
+	return playerAngles[index];
 }
 
