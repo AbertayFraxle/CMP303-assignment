@@ -34,7 +34,6 @@ void Arena::update(float dt)
 	client->recieveData();
 
 	localPlayer.update(dt);
-	
 
 	if (elapsed >= timeStep) {
 		if (localPlayer.getUpdated()) {
@@ -71,3 +70,4 @@ void Arena::render()
 
 	endDraw();
 }
+

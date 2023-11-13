@@ -14,58 +14,74 @@ void ServerInterface::bindListener()
 
 void ServerInterface::update()
 {
+
+	//make your choice https://youtu.be/vhSHXGM7kgE?si=ywD4bVVnkP-3cNpo
 	if (selector.wait()){
+
+		//if the selector has chosen the client listener
 		if (selector.isReady(listener)) {
+
+			//create a new socket for the client connection
 			sf::TcpSocket* client = new sf::TcpSocket;
 			if (listener.accept(*client) != sf::Socket::Done) {
-
-
+				//error message
+				std::cout << "ERROR ACCEPTING NEW CLIENT!\n";
 			}
 			else {
 				std::cout << "a client is attempting to join the server\n";
+
+				//check if the server maximum players has been reached
 				if (clients.size() < 6) {
-					std::cout << "a client has successfully connected to the server";
+
+					//add the new socket to the list of connected clients
+					std::cout << "a client has successfully connected to the server\n";
 					clients.push_back(client);
 					selector.add(*client);
 					sf::Packet idPacket;
 
+					//determine an ID for the new client
 					sf::Int32 newID = clients.size() - 1;
 
+					//send this new ID to the connecting client
 					idPacket << newID;
 					client->send(idPacket);
+					client->setBlocking(false);
 
+				}
+				else {
+					//delete the attempted client
+					std::cout << "maximum amount of clients connected, new client has been rejected\n";
+					delete client;
 				}
 			}
 
 		}
-		else {
-			for (int i = 0; i < clients.size();i++) {
+		
+		for (int i = 0; i < clients.size();i++) {
 
-				sf::TcpSocket& client = *clients[i];
+			sf::TcpSocket& client = *clients[i];
 
-				if (selector.isReady(client)) {
-					sf::Packet packet;
+			if (selector.isReady(client)) {
+				sf::Packet packet;
+				sf::Socket::Status status = client.receive(packet);
+				if ( status== sf::Socket::Done) {
 
-					if (client.receive(packet) == sf::Socket::Done) {
-						sf::Vector2f playerPos;
-						sf::Int32 ID;
-						float playerAngle;
-
-						if (packet >> ID >>playerPos.x >> playerPos.y >> playerAngle) {
+					if (packet >> playerInfo[i]) {
 							
-							
-							playerPositions[i].x = playerPos.x;
-							playerPositions[i].y = playerPos.y;
-							playerAngles[i] = playerAngle;
-							std::cout << std::endl << "Player " << ID << " position - x:" << playerPos.x<< " y:" << playerPos.y;
-						}
+						std::cout << std::endl << "Player " << i << " position - x:" << playerInfo[i].position.x<< " y:" << playerInfo[i].position.y;
 					}
 				}
+				else if (status == sf::Socket::Disconnected) {
+					std::cout << std::endl << "Player " << i << " has disconnected";
+					
+					clients.erase(clients.begin() + i);
+					selector.remove(client);
+					delete &client;
+				}
 			}
 		}
 		
 		
-
 	}
 
 }
@@ -75,7 +91,7 @@ void ServerInterface::sendData()
 
 	sf::Packet packet;
 	
-	packet << playerPositions[0].x << playerPositions[0].y << playerPositions[1].x << playerPositions[1].y << playerPositions[2].x << playerPositions[2].y << playerPositions[3].x << playerPositions[3].y << playerPositions[4].x << playerPositions[4].y << playerPositions[5].x << playerPositions[5].y << playerAngles[0] << playerAngles[1] << playerAngles[2] << playerAngles[3] << playerAngles[4] << playerAngles[5];
+	packet << playerInfo[0] << playerInfo[1] << playerInfo[2] << playerInfo[3] << playerInfo[4] << playerInfo[5];
 
 
 	for (std::vector<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it) {

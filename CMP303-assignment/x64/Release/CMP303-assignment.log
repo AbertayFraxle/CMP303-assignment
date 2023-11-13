@@ -1,6 +1,83 @@
-﻿  Generating code
-  0 of 217 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+﻿  Arena.cpp
+  BaseLevel.cpp
+  ClientInterface.cpp
+  GameObject.cpp
+  Input.cpp
+  main.cpp
+  NetworkPlayer.cpp
+  Player.cpp
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(15,52): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(15,35): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(26,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(27,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(31,87): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(31,67): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(33,43): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(47,49): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(47,32): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(62,32): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\Player.cpp(62,25): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+  ServerInterface.cpp
+C:\Users\admin\source\repos\AbertayFraxle\CMP303-assignment\CMP303-assignment\ServerInterface.cpp(32,22): warning C4267: 'initializing': conversion from 'size_t' to 'sf::Int32', possible loss of data
+  VectorHelper.cpp
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 217 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  CMP303-assignment.vcxproj -> C:\Users\frase\Documents\GitHub\CMP303-assignment\x64\Release\CMP303-assignment.exe
+  CMP303-assignment.vcxproj -> C:\Users\admin\Source\Repos\AbertayFraxle\CMP303-assignment\x64\Release\CMP303-assignment.exe

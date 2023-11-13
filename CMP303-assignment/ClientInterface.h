@@ -2,10 +2,13 @@
 #include "SFML/Network.hpp"
 #include "NetworkPlayer.h"
 #include <iostream>
+#include "utils.h"
 class ClientInterface
 {
-public:
 
+
+public:
+	
 	void setAddress(sf::IpAddress adr);
 	void setPort(int prt);
 
@@ -24,8 +27,7 @@ private:
 	
 	sf::IpAddress address;
 
-	sf::Vector2f playerPositions[6];
-	float playerAngles[6];
+	PlayerInfo nPlayers[6];
 
 	int port;
 	sf::Int32 clientID;

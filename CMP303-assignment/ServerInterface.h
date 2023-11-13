@@ -3,6 +3,7 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include "utils.h"
 class ServerInterface
 {
 public:
@@ -16,7 +17,7 @@ private:
 	sf::SocketSelector selector;
 	int port;
 	std::vector<sf::TcpSocket*> clients;
-	sf::Vector2f playerPositions[6];
-	float playerAngles[6];
+
+	PlayerInfo playerInfo[6];
 };
 

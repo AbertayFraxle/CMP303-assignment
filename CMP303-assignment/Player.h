@@ -2,11 +2,9 @@
 #include "GameObject.h"
 #include "SFML/System.hpp"
 #include "Input.h"
+#include "utils.h"
 
-enum Team{
-	red,
-	blue
-};
+
 
 class Player: public GameObject
 {

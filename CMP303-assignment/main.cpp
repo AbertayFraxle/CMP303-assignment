@@ -19,7 +19,7 @@ void windowProcess(sf::RenderWindow* window, Input* in)
 			window->close();
 			break;
 		case sf::Event::Resized:
-			window->setView(sf::View(sf::FloatRect(0.f, 0.f, (float)event.size.width, (float)event.size.height)));
+			//window->setView(sf::View(sf::FloatRect(0.f, 0.f, (float)event.size.width, (float)event.size.height)));
 			break;
 		case sf::Event::KeyPressed:
 			in->setKeyDown(event.key.code);
