@@ -15,6 +15,8 @@ public:
 	void handleInput(float dt);
 	void update(float dt);
 
+	void netUpdate(float dt);
+
 	void render();
 
 
@@ -25,6 +27,10 @@ public:
 	bool getUpdated() { return updated; };
 	void setFPos(sf::Vector2f);
 	void setFAngle(float nAngle);
+	void setFiring(bool nFire);
+	void setFFiring(bool nFFire);
+	
+	bool getFiring() { return firing; };
 
 	void setTeam(sf::Uint8 nTeam);
 	sf::Uint8 getTeam();
@@ -44,12 +50,14 @@ private:
 
 	sf::Vector2i fPos;
 	float fAngle;
+	bool fFiring;
 
 	sf::Uint8 team;
 
 	bool updated;
 	bool firing;
 	float drawTimer;
+	float fireTimer;
 
 	sf::RenderWindow* window;
 	Input* input;

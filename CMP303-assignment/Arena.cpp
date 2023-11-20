@@ -10,7 +10,8 @@ Arena::Arena(sf::RenderWindow * hwnd, Input * in, ClientInterface* cli) {
 
 	for (int i = 0; i < 6; i++) {
 		if (i != client->getClientID()) {
-			networkPlayers[i].setTeam(1);
+			networkPlayers[i].setTeam(inactive);
+			networkPlayers[i].setWindow(hwnd);
 		}
 	}
 
@@ -45,7 +46,10 @@ void Arena::update(float dt)
 			client->sendData(&localPlayer);
 			localPlayer.setFPos(localPlayer.getPosition());
 			localPlayer.setFAngle(localPlayer.getRotation());
-
+			localPlayer.setFFiring(localPlayer.getFiring());
+			if (localPlayer.getFiring()) {
+				localPlayer.setFiring(false);
+			}
 		}
 		elapsed = 0.f;
 	}
@@ -57,9 +61,15 @@ void Arena::update(float dt)
 			if (client->getNTeam(i) != inactive) {
 				networkPlayers[i].setPosition(client->getPosition(i));
 				networkPlayers[i].setRotation(client->getRotation(i));
+				networkPlayers[i].netUpdate(dt);
 				if (networkPlayers[i].getTeam() != client->getNTeam(i)) {
 					networkPlayers[i].setTeam(client->getNTeam(i));
 				}
+				
+				networkPlayers[i].setFiring(client->getFiring(i));
+				
+			
+				
 			}
 			
 		}
@@ -80,6 +90,7 @@ void Arena::render()
 	for (int i = 0; i < 6; i++) {
 		if (client->getNTeam(i) != inactive) {
 			if (client->getID(i) != client->getClientID()) {
+				networkPlayers[i].render();
 				window->draw(networkPlayers[i]);
 			}
 		}

@@ -20,6 +20,7 @@ public:
 	sf::Vector2f getPosition(int index);
 	float getRotation(int index);
 	sf::Uint8 getID(int index) { return nPlayers[index].ID; };
+	bool getFiring(int index) { return nPlayers[index].firing; };
 
 	int getClientID() { return clientID; };
 

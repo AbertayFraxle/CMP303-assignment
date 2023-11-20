@@ -18,9 +18,10 @@ void ClientInterface::sendData(Player* player)
 	sf::Vector2f playerPos = player->getPosition();
 	float angle = player->getRotation();
 
+	bool firing = player->getFiring();
 
 	sf::Packet packet;
-	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle;
+	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle << firing << false;
 
 	socket.send(packet);
 

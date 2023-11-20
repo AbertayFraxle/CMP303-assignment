@@ -15,6 +15,8 @@ void ServerInterface::bindListener()
 
 		for (int i = 0; i < 6; i++) {
 			playerInfo[i].team = inactive;
+			hitbox[i].width = 100.f;
+			hitbox[i].height = 100.f;
 		}
 	}
 }
@@ -117,6 +119,26 @@ void ServerInterface::update()
 		
 		
 	}
+
+	for (int i = 0; i < clients.size(); i++) {
+		if (playerInfo[i].team != inactive) {
+			hitbox[i].top = playerInfo[i].position.y - 50;
+			hitbox[i].left = playerInfo[i].position.x - 50;
+		}
+
+	}
+
+	for (int i = 0; i < clients.size(); i++) {
+		if (playerInfo[i].firing) {
+
+			//kill_me(now);
+			
+
+
+
+		}
+	}
+
 
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/Network.hpp"
+#include "SFML/Graphics.hpp"
 #include <iostream>
 #include <list>
 #include <vector>
@@ -22,5 +23,6 @@ private:
 	sf::Uint8 blueCount;
 
 	PlayerInfo playerInfo[6];
+	sf::Rect<float> hitbox[6];
 };
 

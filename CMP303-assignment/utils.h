@@ -13,6 +13,9 @@ enum Team : sf::Uint8 {
 		sf::Uint8 ID;
 		float angle;
 		sf::Uint8 team;
+		bool firing;
+
+		bool hit;
 	};
 
 	sf::Packet& operator << (sf::Packet& packet, const PlayerInfo& m);

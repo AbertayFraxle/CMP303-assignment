@@ -1,5 +1,6 @@
 #include "Player.h"
 #define MOVESPEED 100
+#define COOLDOWN 1
 
 Player::Player() {
 
@@ -25,6 +26,7 @@ Player::Player() {
 	line[1].color = sf::Color::Yellow;
 
 	firing = false;
+	fFiring = false;
 
 	drawTimer = 0;
 }
@@ -35,6 +37,9 @@ Player::~Player() {
 
 void Player::handleInput(float dt)
 {
+
+	fireTimer -= dt;
+
 	float iX = input->isKeyDown(sf::Keyboard::D) - input->isKeyDown(sf::Keyboard::A);
 	float iY = input->isKeyDown(sf::Keyboard::S) - input->isKeyDown(sf::Keyboard::W);
 
@@ -45,16 +50,14 @@ void Player::handleInput(float dt)
 	angle = atan2f(diff.y, diff.x) * (180 / 3.14) + 180;
 	angleR = atan2f(diff.y, diff.x) + 3.14;
 
-	if (input->isLeftMousePressed()) {
-		firing = true;
-		input->setLeftMouse(Input::MouseState::UP);
-		drawTimer = 0.2f;
+	
 
-		line[0].position = getPosition() + sf::Vector2f(cosf(angleR) * 50, sinf(angleR) * 50);
-		line[1].position = getPosition() + sf::Vector2f(cosf(angleR) * 10000, sinf(angleR) * 10000);
-	}
-	else {
-		firing = false;
+	if (input->isLeftMousePressed()) {
+		if (fireTimer <= 0) {
+			fireTimer = COOLDOWN;
+			setFiring(true);
+			input->setLeftMouse(Input::MouseState::UP);
+		}
 	}
 }
 
@@ -70,12 +73,24 @@ void Player::update(float dt)
 
 	move(movement * dt);
 
-	if (sf::Vector2i(getPosition().x, getPosition().y) != fPos || angle != fAngle) {
+	if (sf::Vector2i(getPosition().x, getPosition().y) != fPos || angle != fAngle || firing != fFiring) {
 		updated = true;
 	}
 	else {
 		updated = false;
 	}
+	
+}
+
+void Player::netUpdate(float dt)
+{
+	if (drawTimer > 0) {
+		drawTimer -= dt;
+	}
+
+
+	angleR = getRotation() * 0.0174533;
+
 }
 
 void Player::render() {
@@ -104,6 +119,24 @@ void Player::setFAngle(float nAngle)
 {
 	fAngle = nAngle;
 
+}
+
+void Player::setFiring(bool nFire)
+{
+
+	firing = nFire;
+
+	if (firing) {
+		drawTimer = 0.2f;
+
+		line[0].position = getPosition() + sf::Vector2f(cosf(angleR) * 50, sinf(angleR) * 50);
+		line[1].position = getPosition() + sf::Vector2f(cosf(angleR) * 10000, sinf(angleR) * 10000);
+	}
+}
+
+void Player::setFFiring(bool nFFire)
+{
+	fFiring = nFFire;
 }
 
 void Player::setTeam(sf::Uint8 nTeam)
