@@ -21,6 +21,8 @@ public:
 	float getRotation(int index);
 	sf::Uint8 getID(int index) { return nPlayers[index].ID; };
 	bool getFiring(int index) { return nPlayers[index].firing; };
+	
+	bool getHit(int index) { return nPlayers[index].hit; };
 
 	int getClientID() { return clientID; };
 

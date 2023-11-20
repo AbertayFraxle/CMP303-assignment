@@ -73,6 +73,11 @@ void Arena::update(float dt)
 			}
 			
 		}
+		else {
+			if (client->getHit(i)) {
+				localPlayer.setPosition(sf::Vector2f(-100, -100));
+			}
+		}
 	}
 
 

@@ -10,8 +10,11 @@ void ServerInterface::bindListener()
 		selector.add(listener);
 		listener.setBlocking(false);
 		srand(time(NULL));
-		blueCount = 0;
-		redCount = 0;
+		teamCount[red] = 0;
+		teamCount[blue] = 0;
+
+		teamScore[red] = 0;
+		teamScore[blue] = 0;
 
 		for (int i = 0; i < 6; i++) {
 			playerInfo[i].team = inactive;
@@ -56,14 +59,13 @@ void ServerInterface::update()
 
 					sf::Uint8 pTeam;
 
-					if (redCount <= blueCount) {
+					if (teamCount[red] <= teamCount[blue]) {
 						pTeam = red;
-						redCount++;
 					}
 					else {
 						pTeam = blue;
-						blueCount++;
 					}
+					teamCount[pTeam]++;
 
 					playerInfo[index].team = pTeam;
 
@@ -102,13 +104,7 @@ void ServerInterface::update()
 					sf::Uint8 rTeam = playerInfo[i].team;
 					playerInfo[i].team = inactive;
 
-					if (rTeam == red) {
-						redCount--;
-					}
-					else {
-						blueCount--;
-					}
-					
+					teamCount[rTeam]--;
 
 					clients.erase(clients.begin() + i);
 					selector.remove(client);
@@ -120,21 +116,34 @@ void ServerInterface::update()
 		
 	}
 
+	//update the hitbox positions to be accurate to the player positions
 	for (int i = 0; i < clients.size(); i++) {
-		if (playerInfo[i].team != inactive) {
 			hitbox[i].top = playerInfo[i].position.y - 50;
 			hitbox[i].left = playerInfo[i].position.x - 50;
-		}
-
 	}
 
+	//for each player firing their gun, check if they hit any players and add it to their packet
 	for (int i = 0; i < clients.size(); i++) {
 		if (playerInfo[i].firing) {
 
-			//kill_me(now);
+			float radianAngle = playerInfo[i].angle * 0.0174533;
+
+			sf::Vector2f endPoint = playerInfo[i].position + sf::Vector2f(cosf(radianAngle)* 10000, sinf(radianAngle)* 10000);
 			
+			for (int j = 0; j < clients.size(); j++) {
+				if (j != i) {
+					if (checkLineAgainstBox(hitbox[j], playerInfo[i].position, endPoint)) {
 
+						if (playerInfo[i].team != playerInfo[j].team) {
+							teamScore[playerInfo[i].team]++;
+							playerInfo[j].hit = true;
 
+							std::cout << "Red Score: " << std::to_string(teamScore[0]) << " Blue Score: " << std::to_string(teamScore[1]);
+						}
+					}
+				}
+			}
+			
 
 		}
 	}
@@ -164,4 +173,47 @@ void ServerInterface::setPort(int prt)
 {
 	port = prt;
 
+}
+
+bool ServerInterface::checkLineAgainstBox(const sf::FloatRect& rect, const sf::Vector2f p1, const sf::Vector2f p2)
+{
+	auto minX = std::min(p1.x, p2.x);
+	auto maxX = std::max(p1.x, p2.x);
+
+	if (maxX > rect.left + rect.width) {
+		maxX = rect.left + rect.width;
+	}
+
+	if (minX < rect.left) {
+		minX = rect.left;
+	}
+
+	if (minX > maxX) { return false; };
+
+	auto minY = p1.y;
+	auto maxY = p2.y;
+
+	auto dx = p2.x - p1.x;
+	if (std::abs(dx) > 0.0001f) {
+		auto k = (p2.y - p1.y) / dx;
+		auto b = p1.y - k * p1.x;
+		minY = k * minX + b;
+		maxY = k * maxX + b;
+	}
+
+	if (minY > maxY) {
+		std::swap(minY, maxY);
+	}
+
+	if (maxY > rect.top + rect.height) {
+		maxY = rect.top + rect.height;
+	}
+
+	if (minY < rect.top) {
+		minY = rect.top;
+	}
+
+	// If Y-projections do not intersect then there's no intersection
+	if (minY > maxY) { return false; }
+	return true;
 }
