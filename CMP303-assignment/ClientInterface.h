@@ -19,8 +19,12 @@ public:
 
 	sf::Vector2f getPosition(int index);
 	float getRotation(int index);
+	sf::Uint8 getID(int index) { return nPlayers[index].ID; };
 
 	int getClientID() { return clientID; };
+
+	sf::Uint8 getTeam();
+	sf::Uint8 getNTeam(int i);
 
 private:
 	sf::TcpSocket socket;
@@ -30,7 +34,9 @@ private:
 	PlayerInfo nPlayers[6];
 
 	int port;
-	sf::Int32 clientID;
+	sf::Uint8 clientID;
+
+	sf::Uint8 pTeam;
 
 };
 

@@ -9,11 +9,19 @@ void ServerInterface::bindListener()
 		std::cout << "Server Successfuly Initialised!\n";
 		selector.add(listener);
 		listener.setBlocking(false);
+		srand(time(NULL));
+		blueCount = 0;
+		redCount = 0;
+
+		for (int i = 0; i < 6; i++) {
+			playerInfo[i].team = inactive;
+		}
 	}
 }
 
 void ServerInterface::update()
 {
+
 
 	//make your choice https://youtu.be/vhSHXGM7kgE?si=ywD4bVVnkP-3cNpo
 	if (selector.wait()){
@@ -39,11 +47,26 @@ void ServerInterface::update()
 					selector.add(*client);
 					sf::Packet idPacket;
 
+					int index = clients.size() - 1;
+
 					//determine an ID for the new client
-					sf::Int32 newID = clients.size() - 1;
+					sf::Uint8  newID = rand() % 255 + 1;
+
+					sf::Uint8 pTeam;
+
+					if (redCount <= blueCount) {
+						pTeam = red;
+						redCount++;
+					}
+					else {
+						pTeam = blue;
+						blueCount++;
+					}
+
+					playerInfo[index].team = pTeam;
 
 					//send this new ID to the connecting client
-					idPacket << newID;
+					idPacket << newID << pTeam;
 					client->send(idPacket);
 					client->setBlocking(false);
 
@@ -68,12 +91,23 @@ void ServerInterface::update()
 
 					if (packet >> playerInfo[i]) {
 							
-						std::cout << std::endl << "Player " << i << " position - x:" << playerInfo[i].position.x<< " y:" << playerInfo[i].position.y;
+						std::cout << std::endl << "Player " << std::to_string(playerInfo[i].ID) <<" " << std::to_string(playerInfo[i].team) << " position - x:" << playerInfo[i].position.x << " y:" << playerInfo[i].position.y;
 					}
 				}
 				else if (status == sf::Socket::Disconnected) {
-					std::cout << std::endl << "Player " << i << " has disconnected";
+					std::cout << std::endl << "Player " << std::to_string(playerInfo[i].ID)  <<" has disconnected";
 					
+					sf::Uint8 rTeam = playerInfo[i].team;
+					playerInfo[i].team = inactive;
+
+					if (rTeam == red) {
+						redCount--;
+					}
+					else {
+						blueCount--;
+					}
+					
+
 					clients.erase(clients.begin() + i);
 					selector.remove(client);
 					delete &client;

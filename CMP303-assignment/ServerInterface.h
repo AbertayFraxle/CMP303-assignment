@@ -18,6 +18,9 @@ private:
 	int port;
 	std::vector<sf::TcpSocket*> clients;
 
+	sf::Uint8 redCount;
+	sf::Uint8 blueCount;
+
 	PlayerInfo playerInfo[6];
 };
 

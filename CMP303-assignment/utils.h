@@ -2,16 +2,19 @@
 #include "SFML/System.hpp"
 #include "SFML/Network.hpp"
 
-	enum Team {
-		red,
-		blue
+enum Team : sf::Uint8 {
+	red = 0,
+	blue = 1,
+	inactive = 3
 	};
 	
 	struct PlayerInfo {
 		sf::Vector2f position;
+		sf::Uint8 ID;
 		float angle;
-		Team team;
+		sf::Uint8 team;
 	};
 
 	sf::Packet& operator << (sf::Packet& packet, const PlayerInfo& m);
 	sf::Packet& operator >> (sf::Packet& packet, PlayerInfo& m);
+

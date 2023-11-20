@@ -18,8 +18,9 @@ void ClientInterface::sendData(Player* player)
 	sf::Vector2f playerPos = player->getPosition();
 	float angle = player->getRotation();
 
+
 	sf::Packet packet;
-	packet << playerPos.x << playerPos.y << angle;
+	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle;
 
 	socket.send(packet);
 
@@ -55,10 +56,12 @@ bool ClientInterface::connectSocket()
 
 		//recieve a packet dictating the client ID from the server
 		sf::Packet IDpacket;
+
 		socket.receive(IDpacket);
 
 		//if this client packet is recieved successfully, return true, else return false
-		if (IDpacket >> clientID) {
+		if (IDpacket >> clientID >> pTeam) {
+			
 			socket.setBlocking(false);
 			return true;
 		}
@@ -79,3 +82,11 @@ float ClientInterface::getRotation(int index)
 	return nPlayers[index].angle;
 }
 
+sf::Uint8 ClientInterface::getNTeam(int i)
+{ 
+	return nPlayers[i].team; 
+}
+
+sf::Uint8 ClientInterface::getTeam() { 
+	return pTeam;
+};

@@ -109,7 +109,6 @@ int main() {
 			float deltaTime;
 			window.setKeyRepeatEnabled(false);
 
-			
 
 			while (window.isOpen()) {
 				windowProcess(&window, &input);

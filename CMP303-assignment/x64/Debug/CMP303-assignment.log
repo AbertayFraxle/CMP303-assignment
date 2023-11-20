@@ -1,2 +1,86 @@
-﻿  main.cpp
-  CMP303-assignment.vcxproj -> C:\Users\admin\Source\Repos\AbertayFraxle\CMP303-assignment\x64\Debug\CMP303-assignment.exe
+﻿  Arena.cpp
+  ClientInterface.cpp
+  NetworkPlayer.cpp
+  Player.cpp
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(6,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(19,35): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(19,27): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(20,52): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(20,35): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(38,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(39,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(43,87): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(43,67): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(45,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(46,34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(73,49): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(73,32): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(100,32): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\Player.cpp(100,25): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+  main.cpp
+  Generating Code...
+  CMP303-assignment.vcxproj -> C:\Users\frase\Documents\GitHub\CMP303-assignment\x64\Debug\CMP303-assignment.exe
