@@ -20,8 +20,10 @@ void ClientInterface::sendData(Player* player)
 
 	bool firing = player->getFiring();
 
+	bool invuln = player->getInvulnerable();
+
 	sf::Packet packet;
-	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle << firing << false;
+	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle << firing << false << invuln;
 
 	socket.send(packet);
 
@@ -35,7 +37,7 @@ void ClientInterface::recieveData() {
 
 	socket.receive(packet);
 
-	if (packet >> nPlayers[0] >> nPlayers[1] >> nPlayers[2] >> nPlayers[3]>> nPlayers[4]>> nPlayers[5]) {
+	if (packet >> nPlayers[0] >> nPlayers[1] >> nPlayers[2] >> nPlayers[3]>> nPlayers[4]>> nPlayers[5] >> teamScore[red] >> teamScore[blue]) {
 
 	}
 }

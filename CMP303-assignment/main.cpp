@@ -108,7 +108,7 @@ int main() {
 			sf::Clock clock;
 			float deltaTime;
 			window.setKeyRepeatEnabled(false);
-
+			window.setMouseCursorVisible(false);
 
 			while (window.isOpen()) {
 				windowProcess(&window, &input);

@@ -10,23 +10,30 @@ Player::Player() {
 
 	redTex.loadFromFile("textures/red.png");
 	blueTex.loadFromFile("textures/blue.png");
+	yellowTex.loadFromFile("textures/yellow.png");
 
 	setTexture(&redTex);
 
-	int spawnX = rand() % 1920+1;
-	int spawnY = rand() % 1080 + 1;
+	spawn();
 
 	setSize(sf::Vector2f(100, 100));
-	setPosition(sf::Vector2f(spawnX, spawnY));
+	outline.setSize(sf::Vector2f(106, 106));
+
 	fPos = sf::Vector2i(getPosition().x, getPosition().y);
 
 	setOrigin(sf::Vector2f(25, 50));
+	outline.setOrigin(sf::Vector2f(31, 53));
+
+	outline.setTexture(&yellowTex);
+
+	outline.setFillColor(sf::Color::Yellow);
 
 	line[0].color = sf::Color::Yellow;
 	line[1].color = sf::Color::Yellow;
 
 	firing = false;
 	fFiring = false;
+	fInvuln = true;
 
 	drawTimer = 0;
 }
@@ -51,34 +58,57 @@ void Player::handleInput(float dt)
 	angleR = atan2f(diff.y, diff.x) + 3.14;
 
 	
-
-	if (input->isLeftMousePressed()) {
-		if (fireTimer <= 0) {
-			fireTimer = COOLDOWN;
-			setFiring(true);
-			input->setLeftMouse(Input::MouseState::UP);
+	if (invulnTimer <= 0) {
+		if (input->isLeftMousePressed()) {
+			if (fireTimer <= 0) {
+				fireTimer = COOLDOWN;
+				setFiring(true);
+				input->setLeftMouse(Input::MouseState::UP);
+			}
 		}
 	}
 }
 
 void Player::update(float dt)
 {
+	updated = false;
 	if (drawTimer > 0) {
 		drawTimer -= dt;
+	}
+
+	if (invulnTimer > 0) {
+		invulnerable = true;
+		invulnTimer -= dt;
+	}
+	else {
+		invulnerable = false;
 	}
 
 	sf::Vector2f movement = sf::Vector2f(MOVESPEED*inputVec.x, MOVESPEED* inputVec.y);
 
 	setRotation(angle);
 
-	move(movement * dt);
-
-	if (sf::Vector2i(getPosition().x, getPosition().y) != fPos || angle != fAngle || firing != fFiring) {
-		updated = true;
+	if (getPosition().x + (movement.x * dt) < 0 || getPosition().x + (movement.x * dt) > 1920) {
+		setPosition(sf::Vector2f(getPosition().x, getPosition().y));
 	}
 	else {
-		updated = false;
+		setPosition(sf::Vector2f(getPosition().x + (movement.x * dt), getPosition().y));
+	};
+
+	if (getPosition().y + (movement.y * dt) < 0 || getPosition().y + (movement.y * dt) > 1080) {
+		setPosition(sf::Vector2f(getPosition().x, getPosition().y));
 	}
+	else {
+		setPosition(sf::Vector2f(getPosition().x , getPosition().y + (movement.y * dt)));
+	};
+	
+	outline.setPosition(getPosition());
+	outline.setRotation(getRotation());
+
+	if (sf::Vector2i(getPosition().x, getPosition().y) != fPos || angle != fAngle || firing != fFiring || invulnerable != fInvuln) {
+		updated = true;
+	}
+	
 	
 }
 
@@ -87,7 +117,8 @@ void Player::netUpdate(float dt)
 	if (drawTimer > 0) {
 		drawTimer -= dt;
 	}
-
+	outline.setPosition(getPosition());
+	outline.setRotation(getRotation());
 
 	angleR = getRotation() * 0.0174533;
 
@@ -97,6 +128,9 @@ void Player::render() {
 
 	if (drawTimer > 0) {
 		window->draw(line, 2, sf::Lines);
+	}
+	if (invulnerable) {
+		window->draw(outline);
 	}
 }
 
@@ -160,3 +194,12 @@ sf::Uint8 Player::getTeam()
 	return team; 
 }
 
+void Player::spawn() {
+	int spawnX = rand() % 1920 + 1;
+	int spawnY = rand() % 1080 + 1;
+
+	setPosition(sf::Vector2f(spawnX, spawnY));
+
+	invulnTimer = 4.f;
+
+}

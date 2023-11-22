@@ -22,5 +22,9 @@ private:
 
 	float elapsed;
 
+	sf::Text score;
+	sf::Font uiFont;
+	sf::RectangleShape UI;
+	sf::Texture uiTex;
 };
 

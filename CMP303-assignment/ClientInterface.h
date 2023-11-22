@@ -23,11 +23,14 @@ public:
 	bool getFiring(int index) { return nPlayers[index].firing; };
 	
 	bool getHit(int index) { return nPlayers[index].hit; };
+	bool getInvuln(int index) { return nPlayers[index].invuln; };
 
 	int getClientID() { return clientID; };
 
 	sf::Uint8 getTeam();
 	sf::Uint8 getNTeam(int i);
+
+	sf::Uint8 getTScore(int i) { return teamScore[i]; };
 
 private:
 	sf::TcpSocket socket;
@@ -40,6 +43,8 @@ private:
 	sf::Uint8 clientID;
 
 	sf::Uint8 pTeam;
+
+	sf::Uint8 teamScore[2];
 
 };
 

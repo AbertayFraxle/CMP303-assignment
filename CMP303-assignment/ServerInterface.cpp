@@ -18,8 +18,8 @@ void ServerInterface::bindListener()
 
 		for (int i = 0; i < 6; i++) {
 			playerInfo[i].team = inactive;
-			hitbox[i].width = 100.f;
-			hitbox[i].height = 100.f;
+			hitbox[i].width = 66.f;
+			hitbox[i].height = 66.f;
 		}
 	}
 }
@@ -134,7 +134,7 @@ void ServerInterface::update()
 				if (j != i) {
 					if (checkLineAgainstBox(hitbox[j], playerInfo[i].position, endPoint)) {
 
-						if (playerInfo[i].team != playerInfo[j].team) {
+						if (playerInfo[i].team != playerInfo[j].team && !playerInfo[j].invuln) {
 							teamScore[playerInfo[i].team]++;
 							playerInfo[j].hit = true;
 
@@ -156,7 +156,7 @@ void ServerInterface::sendData()
 
 	sf::Packet packet;
 	
-	packet << playerInfo[0] << playerInfo[1] << playerInfo[2] << playerInfo[3] << playerInfo[4] << playerInfo[5];
+	packet << playerInfo[0] << playerInfo[1] << playerInfo[2] << playerInfo[3] << playerInfo[4] << playerInfo[5] << teamScore[red] << teamScore[blue];
 
 
 	for (std::vector<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it) {
