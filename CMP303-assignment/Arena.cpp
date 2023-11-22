@@ -101,8 +101,8 @@ void Arena::render()
 {
 	beginDraw();
 
-	//sf::View gameView(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(1920, 1080)));
-	sf::View gameView(sf::FloatRect(localPlayer.getPosition() - sf::Vector2f(640, 360), sf::Vector2f(1280, 720)));
+	sf::View gameView(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(1920, 1080)));
+	//sf::View gameView(sf::FloatRect(localPlayer.getPosition() - sf::Vector2f(640, 360), sf::Vector2f(1280, 720)));
 	sf::View uiView(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(1920, 1080)));
 	window->setView(gameView);
 

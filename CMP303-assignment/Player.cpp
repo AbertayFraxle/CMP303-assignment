@@ -22,7 +22,7 @@ Player::Player() {
 	fPos = sf::Vector2i(getPosition().x, getPosition().y);
 
 	setOrigin(sf::Vector2f(25, 50));
-	outline.setOrigin(sf::Vector2f(31, 53));
+	outline.setOrigin(sf::Vector2f(28, 53));
 
 	outline.setTexture(&yellowTex);
 
