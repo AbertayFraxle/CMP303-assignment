@@ -18,6 +18,8 @@ struct PlayerInfo {
 	bool firing;
 	bool hit;
 	bool invuln;
+	bool dead;
+	float time;
 };
 
 //overload the operators to be able to pack my playerinfo struct

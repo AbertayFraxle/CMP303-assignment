@@ -1,17 +1,8 @@
 #include "ClientInterface.h"
 
+//utility methods
 
-void ClientInterface::setAddress(sf::IpAddress adr)
-{
-	address = adr;
-}
-
-void ClientInterface::setPort(int prt)
-{
-	port = prt;
-}
-
-void ClientInterface::sendData(Player* player)
+void ClientInterface::sendData(Player* player, float time,bool dead)
 {
 
 	//send the player position and angle to the server
@@ -23,7 +14,7 @@ void ClientInterface::sendData(Player* player)
 	bool invuln = player->getInvulnerable();
 
 	sf::Packet packet;
-	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle << firing << false << invuln;
+	packet << clientID << pTeam <<playerPos.x << playerPos.y << angle << firing << false << invuln << time << dead;
 
 	socket.send(packet);
 
@@ -32,13 +23,58 @@ void ClientInterface::sendData(Player* player)
 void ClientInterface::recieveData() {
 	
 	//recieve all the positions and angles from the server
-
 	sf::Packet packet;
-
 	socket.receive(packet);
 
-	if (packet >> nPlayers[0] >> nPlayers[1] >> nPlayers[2] >> nPlayers[3]>> nPlayers[4]>> nPlayers[5] >> teamScore[red] >> teamScore[blue]) {
 
+	PlayerInfo newInfo[6];
+
+	if (packet >> newInfo[0] >> newInfo[1] >> newInfo[2] >> newInfo[3] >> newInfo[4] >> newInfo[5]  >> teamScore[red] >> teamScore[blue] >> countdown >> roundTime) {
+
+		//unpack all the new information into the structure for storing player information
+		for (int i = 0; i < 6;i++) {
+
+				//shift up the previous player information and set it to have recieved a packet
+				nPlayers0[i] = nPlayers[i];
+				nPlayers[i] = newInfo[i];
+				updated[i] = true;
+
+		}
+
+		//using the current and previous position, determine where the player will be on the next tick
+		doPrediction();
+	}
+}
+
+void ClientInterface::doPrediction() {
+
+	for (int i = 0; i < 6; i++) {
+		
+		//if it's not the local player
+		if (nPlayers[i].ID != clientID) {
+
+			//if the time change makes sense (and to avoid dividing by 0)
+			if ((nPlayers[i].time - nPlayers0[i].time) > 0) {
+				
+				//calculate the predicted position using the time and positions from the previous packet
+				sf::Vector2f speed = (nPlayers[i].position - nPlayers0[i].position) / (nPlayers[i].time - nPlayers0[i].time);
+				sf::Vector2f displacement = speed * (nPlayers[i].time - nPlayers0[i].time);
+				predictedPlayers[i].position = nPlayers[i].position + displacement;
+				predictedPlayers[i].ID = nPlayers[i].ID;
+			}
+		}
+	}
+}
+
+void ClientInterface::doContinuedPrediction(int i,float timeStep)
+{
+	//if the time change makes sense (and to avoid dividing by 0)
+	if ((nPlayers[i].time - nPlayers0[i].time) > 0) {
+
+		//calculate the predicted position using the speed and displacement of the last recieved packets but applied to the currently passed in position
+		sf::Vector2f speed = (nPlayers[i].position - nPlayers0[i].position) / (nPlayers[i].time - nPlayers0[i].time);
+		sf::Vector2f displacement = speed * (nPlayers[i].time - nPlayers0[i].time);
+		predictedPlayers[i].position = tempPlayers[i].position + displacement;
 	}
 }
 
@@ -66,11 +102,87 @@ bool ClientInterface::connectSocket()
 		if (IDpacket >> clientID >> pTeam) {
 			
 			socket.setBlocking(false);
+
+			countdown = 5.f;
+
 			return true;
 		}
 		return false;
 		
 	}
+}
+
+//getter methods
+
+float ClientInterface::getRotation(int index)
+{
+	//return the angle of the network player at index
+	return nPlayers[index].angle;
+}
+
+sf::Uint8 ClientInterface::getID(int index)
+{
+	return nPlayers[index].ID;
+}
+
+bool ClientInterface::getUpdated(int index)
+{
+	return updated[index];
+}
+
+bool ClientInterface::getFiring(int index)
+{
+	return nPlayers[index].firing;
+}
+
+bool ClientInterface::getDead(int index)
+{
+	return nPlayers[index].dead;
+}
+
+bool ClientInterface::getHit(int index)
+{
+	bool retValue = nPlayers[index].hit;
+
+	if (retValue) {
+		nPlayers[index].hit = false;
+	}
+
+	return retValue;
+}
+
+bool ClientInterface::getInvuln(int index)
+{
+	return nPlayers[index].invuln;
+}
+
+int ClientInterface::getClientID()
+{
+	return clientID;
+}
+
+sf::Uint8 ClientInterface::getNTeam(int i)
+{
+	return nPlayers[i].team;
+}
+
+sf::Uint8 ClientInterface::getTScore(int i)
+{
+	return teamScore[i];
+}
+
+float ClientInterface::getCountdown()
+{
+	return countdown;
+}
+
+sf::Uint8 ClientInterface::getTeam() {
+	return pTeam;
+}
+
+sf::Vector2f ClientInterface::getTemp(int index)
+{
+	return tempPlayers[index].position;
 }
 
 sf::Vector2f ClientInterface::getPosition(int index)
@@ -79,17 +191,31 @@ sf::Vector2f ClientInterface::getPosition(int index)
 	return nPlayers[index].position;
 }
 
-float ClientInterface::getRotation(int index)
+sf::Vector2f ClientInterface::getPredictedPosition(int index)
 {
-	//return the angle of the network player at index
-	return nPlayers[index].angle;
+	return predictedPlayers[index].position;
 }
 
-sf::Uint8 ClientInterface::getNTeam(int i)
-{ 
-	return nPlayers[i].team; 
+
+
+//setter methods
+
+void ClientInterface::setTemp(int index, sf::Vector2f pos)
+{
+	tempPlayers[index].position = pos;
 }
 
-sf::Uint8 ClientInterface::getTeam() { 
-	return pTeam;
-};
+void ClientInterface::setUpdated(int index,bool nState)
+{
+	updated[index] = nState;
+}
+
+void ClientInterface::setAddress(sf::IpAddress adr)
+{
+	address = adr;
+}
+
+void ClientInterface::setPort(int prt)
+{
+	port = prt;
+}
