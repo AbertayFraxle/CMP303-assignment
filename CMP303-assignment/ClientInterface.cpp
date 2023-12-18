@@ -1,3 +1,4 @@
+//Fraser McCann 2100629
 #include "ClientInterface.h"
 
 //utility methods
@@ -34,11 +35,21 @@ void ClientInterface::recieveData() {
 		//unpack all the new information into the structure for storing player information
 		for (int i = 0; i < 6;i++) {
 
+			if (!firstConnect) {
 				//shift up the previous player information and set it to have recieved a packet
 				nPlayers0[i] = nPlayers[i];
 				nPlayers[i] = newInfo[i];
 				updated[i] = true;
+			}
+			else {
+				nPlayers0[i] = newInfo[i];
+				nPlayers[i] = newInfo[i];
+				updated[i] = true;
+			}
 
+		}
+		if (firstConnect) {
+			firstConnect = false;
 		}
 
 		//using the current and previous position, determine where the player will be on the next tick
@@ -62,6 +73,9 @@ void ClientInterface::doPrediction() {
 				predictedPlayers[i].position = nPlayers[i].position + displacement;
 				predictedPlayers[i].ID = nPlayers[i].ID;
 			}
+			else {
+				predictedPlayers[i].position = nPlayers[i].position;
+			}
 		}
 	}
 }
@@ -75,6 +89,9 @@ void ClientInterface::doContinuedPrediction(int i,float timeStep)
 		sf::Vector2f speed = (nPlayers[i].position - nPlayers0[i].position) / (nPlayers[i].time - nPlayers0[i].time);
 		sf::Vector2f displacement = speed * (nPlayers[i].time - nPlayers0[i].time);
 		predictedPlayers[i].position = tempPlayers[i].position + displacement;
+	}
+	else {
+		predictedPlayers[i].position = nPlayers[i].position;
 	}
 }
 
@@ -104,6 +121,7 @@ bool ClientInterface::connectSocket()
 			socket.setBlocking(false);
 
 			countdown = 5.f;
+			firstConnect = true;
 
 			return true;
 		}

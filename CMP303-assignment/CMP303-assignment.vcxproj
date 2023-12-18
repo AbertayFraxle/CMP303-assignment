@@ -141,7 +141,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NetworkPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ServerInterface.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="ClientInterface.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="NetworkPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ServerInterface.h" />
     <ClInclude Include="utils.h" />

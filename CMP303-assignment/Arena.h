@@ -1,3 +1,5 @@
+//Fraser McCann 2100629
+
 #pragma once
 #include "BaseLevel.h"
 #include "Input.h"
@@ -19,19 +21,27 @@ private:
 	ClientInterface* client;
 
 	Player localPlayer;
-	NetworkPlayer networkPlayers[6];
+	
+	//object to render network players
+	Player networkPlayers[6];
 
+	//to get the time before sending a packet
 	float elapsed;
 	float timeStep;
 
+	//timer to timestamp, and respawn timer to respawn
 	float localTimer;
 	float respawnTimer;
+
+	//amount to move network players to their predicted positions
 	float lerpAmount[6];
 
+	//condition variables
 	bool waiting;
 	bool doubleSend;
 	bool dead;
 	bool gameOver;
+	bool reset;
 
 	sf::Text score;
 	sf::Text timer;

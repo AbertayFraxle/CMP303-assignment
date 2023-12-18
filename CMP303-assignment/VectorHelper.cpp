@@ -1,3 +1,4 @@
+//Fraser McCann 2100629
 #include "VectorHelper.h"
 
 // Returns a normalised vector

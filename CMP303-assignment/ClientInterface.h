@@ -1,6 +1,7 @@
+//Fraser McCann 2100629
 #pragma once
 #include "SFML/Network.hpp"
-#include "NetworkPlayer.h"
+#include "Player.h"
 #include <iostream>
 #include "utils.h"
 class ClientInterface
@@ -39,6 +40,8 @@ public:
 
 private:
 	bool updated[6];
+
+	bool firstConnect;
 
 	int port;
 

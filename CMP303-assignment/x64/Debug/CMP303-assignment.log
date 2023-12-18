@@ -1,5 +1,4 @@
-﻿  ServerInterface.cpp
-C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\ServerInterface.cpp(19,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\ServerInterface.cpp(80,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\frase\Documents\GitHub\CMP303-assignment\CMP303-assignment\ServerInterface.cpp(221,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  Arena.cpp
+  ClientInterface.cpp
+  Generating Code...
   CMP303-assignment.vcxproj -> C:\Users\frase\Documents\GitHub\CMP303-assignment\x64\Debug\CMP303-assignment.exe

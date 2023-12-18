@@ -56,6 +56,8 @@ Arena::Arena(sf::RenderWindow * hwnd, Input * in, ClientInterface* cli) {
 
 	gameOver = false;
 
+	reset = false;
+
 	//define a timestep to be 1/64th of a second, the client will send an update to the server at this rate
 	timeStep = 1.f / 32.f;
 }
@@ -102,6 +104,8 @@ void Arena::update(float dt)
 		}
 		else {
 			waiting = true;
+			reset = false;
+			localTimer = 0;
 		}
 
 		//if there is less than 2 players connected to the server, stay in a waiting state until then
@@ -121,6 +125,12 @@ void Arena::update(float dt)
 			}
 		}
 		else {
+			
+			if (!reset) {
+				reset = true;
+				localPlayer.spawn();
+			}
+
 			//uptick local timer
 			localTimer += dt;
 
@@ -258,6 +268,8 @@ void Arena::update(float dt)
 					float lerpPosY = std::lerp(fromPos[i].y, toPos[i].y, std::min(1.f, lerpAmount[i] / timeStep));
 
 					//if the player isnt at the right location, move it using the interpolated values
+
+
 					if (!client->getDead(i)) {
 						if (networkPlayers[i].getPosition() != client->getPredictedPosition(i)) {
 							networkPlayers[i].setPosition(sf::Vector2f(lerpPosX, lerpPosY));
